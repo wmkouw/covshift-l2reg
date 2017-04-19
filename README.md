@@ -8,7 +8,7 @@ published in the proceedings of the International Conference in Pattern Recognit
 
 ## Usage
 
-The folder _experiment-*_ contains a file that runs an experiment on a dataset, while the _util_ folder contains utility functions and algorithms. The main script calls the experiment that is reported in the paper.
+The folder _experiment-*_ contains a file that runs an experiment on a dataset, while the _util_ folder contains utility functions and algorithms. _data_ contains download and parsing scripts.
 
 ## Dependencies:
 
