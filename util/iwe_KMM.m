@@ -23,7 +23,7 @@ options.Display = 'valid';
 options.TolCon = 1e-5;
 
 % Constraints
-if p.Results.eps==0
+if p.Results.eps<0
     eps = [p.Results.B./sqrt(n) p.Results.B./sqrt(n)];
 elseif length(p.Results.eps)==2
     eps = p.Results.eps;

@@ -14,7 +14,7 @@ D = pdist2(X, Z);
 
 % Count how many target samples are in Voronoi Tesselation
 [~,ix] = min(D, [], 1);
-iw = hist(ix, 1:size(X,1));
+iw = hist(ix, 1:size(X,1))';
 
 % Laplace smoothing
 if p.Results.Laplace

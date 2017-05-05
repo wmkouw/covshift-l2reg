@@ -59,14 +59,14 @@ X_de=kernel_Gaussian(X,x_ce,sigma);
 X_nu=kernel_Gaussian(Z,x_ce,sigma);
 mean_X_de=mean(X_de,1)';
 alphah=KLIEP_learning(mean_X_de,X_nu);
-iw=(X_de*alphah)';
+iw=X_de*alphah;
 
 % Weight clipping
 iw = min(p.Results.clip,max(0,iw));
 
 end
 
-function px=pdf_Gaussian(x,mu,sigma)
+function px = pdf_Gaussian(x,mu,sigma)
 
 [d,nx]=size(x);
 

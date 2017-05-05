@@ -37,7 +37,8 @@ addOptional(p, 'xl', [-10 10]);
 addOptional(p, 'zl', [-10 10]);
 addOptional(p, 'N', 100);
 addOptional(p, 'M', 100);
-addOptional(p, 'ub', 1./sqrt(2*pi));
+addOptional(p, 'ubX', 1./sqrt(2*pi));
+addOptional(p, 'ubZ', 1./sqrt(2*pi));
 addOptional(p, 'py', [1./2 1./2]);
 addOptional(p, 'theta_Xyn', [-1 1]);
 addOptional(p, 'theta_Xyp', [ 1 1]);
@@ -46,26 +47,26 @@ parse(p, varargin{:});
 %% Distribution functions
 
 % Source class-conditional distributions
-pX_yn = @(x) normpdf(x, p.Results.theta_Xy0(1), sqrt(p.Results.theta_Xy0(2)));
-pX_yp = @(x) normpdf(x, p.Results.theta_Xy1(1), sqrt(p.Results.theta_Xy1(2)));
+pX_yn = @(x) normpdf(x, p.Results.theta_Xyn(1), sqrt(p.Results.theta_Xyn(2)));
+pX_yp = @(x) normpdf(x, p.Results.theta_Xyp(1), sqrt(p.Results.theta_Xyp(2)));
 
 % Class-priors
-py0 = p.Results.py(1);
-py1 = p.Results.py(2);
+pyn = p.Results.py(1);
+pyp = p.Results.py(2);
 
 % Class-posteriors
-py0_X = @(x) pX_yn(x).*py0./(pX_yn(x).*py0 + pX_yp(x).*py1);
-py1_X = @(x) pX_yp(x).*py1./(pX_yn(x).*py0 + pX_yp(x).*py1);
+pyn_X = @(x) pX_yn(x).*pyn./(pX_yn(x).*pyn + pX_yp(x).*pyp);
+pyp_X = @(x) pX_yp(x).*pyp./(pX_yn(x).*pyn + pX_yp(x).*pyp);
 
 % Target class-conditional distributions
-pZ_y0 = @(z) (py0_X(z).*pZ(z)./py0);
-pZ_y1 = @(z) (py1_X(z).*pZ(z)./py1);
+pZ_yn = @(z) (pyn_X(z).*pZ(z)./pyn);
+pZ_yp = @(z) (pyp_X(z).*pZ(z)./pyp);
 
 % Use external rejection sampler
-X_yn = sampleDist(pX_yn,p.Results.ub,round(p.Results.N.*py0),[p.Results.zl(1) p.Results.zl(2)], false);
-X_yp = sampleDist(pX_yp,p.Results.ub,round(p.Results.N.*py1),[p.Results.zl(1) p.Results.zl(2)], false);
-Z_yn = sampleDist(pZ_y0,p.Results.ub,round(p.Results.M.*py0),[p.Results.zl(1) p.Results.zl(2)], false);
-Z_yp = sampleDist(pZ_y1,p.Results.ub,round(p.Results.M.*py1),[p.Results.zl(1) p.Results.zl(2)], false);
+X_yn = sampleDist(pX_yn,p.Results.ubX,round(p.Results.N.*pyn),[p.Results.xl(1) p.Results.xl(2)], false);
+X_yp = sampleDist(pX_yp,p.Results.ubX,round(p.Results.N.*pyp),[p.Results.xl(1) p.Results.xl(2)], false);
+Z_yn = sampleDist(pZ_yn,p.Results.ubZ,round(p.Results.M.*pyn),[p.Results.zl(1) p.Results.zl(2)], false);
+Z_yp = sampleDist(pZ_yp,p.Results.ubZ,round(p.Results.M.*pyp),[p.Results.zl(1) p.Results.zl(2)], false);
 
 if nargout > 4
     varargout{1} = pX_yn;

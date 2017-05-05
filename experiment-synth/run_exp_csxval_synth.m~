@@ -1,0 +1,33 @@
+% Script to run an experiment using synthetic data
+close all;
+clearvars;
+
+% Domain distribution parameters
+params.X_yn = [-1 1];
+params.X_yp = [ 1 1];
+
+% Define target variances
+S = [1 2 3 4].^2;
+
+% Define range of regularization parameters
+Lambda = linspace(-100,500,101);
+
+% Visualize problem setting
+viz_problem_csxval_synth(S, params);
+
+% Loop over importance-weight estimators
+iwe = {'none', 'true', 'gauss', 'kliep', 'kmm', 'nnew'};
+for i = iwe
+    
+    % Run experiment with current estimator
+    [MSE, ~, Lambda] = exp_csxval_synth('S', S, 'Lambda', Lambda, ...
+        'nR', 10, 'save', true, 'saveName', ['results_csxval_synth_' i], ...
+        'iwe', iwe{i});
+    
+    % Visualize MSE curves
+    viz_MSE_csxval_synth(MSE, S, Lambda, 'title', iwe{i});
+end
+
+% Gather results for all estimators
+[results] = table_results_csxval_synth(S);
+
