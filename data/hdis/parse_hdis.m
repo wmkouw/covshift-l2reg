@@ -3,7 +3,7 @@ function [D,y,domains,domain_names] = parse_hdis(varargin)
 
 % Parse hyperparameters
 p = inputParser;
-addOptional(p, 'sav', false);
+addOptional(p, 'save', false);
 addOptional(p, 'impute', false);
 parse(p, varargin{:});
 
@@ -52,7 +52,7 @@ end
 
 %% Write to matlab file
 
-if p.Results.sav
+if p.Results.save
     save('heart_disease.mat', 'D','y', 'domains', 'domain_names');
 end
 

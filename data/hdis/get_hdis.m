@@ -3,7 +3,7 @@ function [D,y,domains,domain_names] = get_hdis(varargin)
 
 % Parse
 p = inputParser;
-addOptional(p, 'sav', false);
+addOptional(p, 'save', false);
 addOptional(p, 'impute', false);
 parse(p, varargin{:});
 
@@ -34,6 +34,6 @@ parse_hungarian_gen()
 parse_switzerland_gen()
 parse_virginia_gen()
 
-[D,y,domains,domain_names] = parse_hdis('sav', p.Results.sav, 'impute', p.Results.impute);
+[D,y,domains,domain_names] = parse_hdis('save', p.Results.save, 'impute', p.Results.impute);
 
 end
