@@ -4,7 +4,7 @@ This repository contains experiments and MATLAB code accompanying the paper:
 
 "On regularization parameter estimation under covariate shift."
 
-published in the proceedings of the International Conference in Pattern Recognition in 2016.
+published in the proceedings of the International Conference in Pattern Recognition in 2016 ([pdf](https://ieeexplore.ieee.org/document/7899671)/[preprint](https://arxiv.org/abs/1608.00250)).
 
 ## Usage
 
